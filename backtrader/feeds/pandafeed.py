@@ -251,8 +251,14 @@ class PandasData(feed.DataBase):
             # get the line to be set
             line = getattr(self.lines, datafield)
 
-            # indexing for pandas: 1st is colum, then row
-            line[0] = self.p.dataname.iloc[self._idx, colindex]
+            # indexing for pandas: 1st is column, then row
+            value = self.p.dataname.iloc[self._idx, colindex]
+
+            # Check if the value is a string and skip it
+            if isinstance(value, string_types):
+                continue  # skip this value
+
+            line[0] = value
 
         # datetime conversion
         coldtime = self._colmapping['datetime']
